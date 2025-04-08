@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Licitaí - Alertas de licitações pelo WhatsApp',
+  title: 'EditalZap - Alertas de licitações pelo WhatsApp',
   description: 'Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp',
   icons: {
     icon: '/images/icon-logo.svg',
