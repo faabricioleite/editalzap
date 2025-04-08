@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "cp public/favicon.ico out/ && cp public/head.html out/",
     "start": "next start",
     "lint": "next lint"
   },
