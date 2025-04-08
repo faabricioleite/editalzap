@@ -94,7 +94,7 @@ export default function Hero({ onOpenDemoVideo }) {
           <div className="lg:w-1/2 lg:pr-8 mb-12 lg:mb-0">
             {/* Badge - Acima do título */}
             <div className="flex justify-center lg:justify-start mb-8">
-              <div className="badge">
+              <div className="badge w-auto text-center md:text-left">
                 <span className="mr-2">📲</span>
                 <span className="text-sm">Receba alertas de licitações no seu WhatsApp</span>
               </div>
@@ -117,11 +117,11 @@ export default function Hero({ onOpenDemoVideo }) {
                 href="https://wa.link/x9ikpi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary"
+                className="btn-primary text-center w-auto"
               >
                 Começar Agora
               </a>
-              <button className="btn-secondary" onClick={onOpenDemoVideo}>
+              <button className="btn-secondary text-center" onClick={onOpenDemoVideo}>
                 Ver Demonstração
               </button>
             </div>

@@ -150,4 +150,10 @@ body {
   .navbar-links {
     display: none;
   }
+  
+  /* Centralizar texto em botões e badges no mobile */
+  .btn-primary, .badge {
+    text-align: center;
+    justify-content: center;
+  }
 } 

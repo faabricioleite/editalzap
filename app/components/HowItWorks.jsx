@@ -43,7 +43,7 @@ export default function HowItWorks() {
       <div className="container mx-auto px-4">
         {/* Badge superior */}
         <div className="flex justify-center mb-8">
-          <div className="badge">
+          <div className="badge w-auto text-center">
             <span className="mr-2">⚡</span>
             <span className="text-sm">Receba alertas todo santo dia</span>
           </div>
