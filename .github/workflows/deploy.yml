@@ -26,7 +26,9 @@ jobs:
         run: npm run build
 
       - name: Deploy 🚀
+        env:
+          GITHUB_TOKEN: ${{ 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 }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: out # A pasta que o Next.js gera com os arquivos estáticos
-          branch: gh-pages # Branch onde serão publicados os arquivos 
+          branch: gh-pages # Branch onde serão publicados os arquivos
