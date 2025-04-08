@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import OptimizedImage from './OptimizedImage';
 
 export default function OpportunitiesMap() {
   const [activeBadge, setActiveBadge] = useState(0);
@@ -72,7 +72,7 @@ export default function OpportunitiesMap() {
           {/* Mapa do Brasil */}
           <div className="relative w-full max-w-xl mx-auto">
             <div className="aspect-w-4 aspect-h-5 relative">
-              <Image
+              <OptimizedImage
                 src="/images/vecteezy_drawing-of-brazil-map_22944443.png"
                 alt="Mapa do Brasil"
                 fill

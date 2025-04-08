@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import OptimizedImage from './components/OptimizedImage';
 
 export default function NotFound() {
   return (
@@ -10,7 +10,7 @@ export default function NotFound() {
       <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
         <div className="mb-6">
           <Link href="/">
-            <Image 
+            <OptimizedImage 
               src="/images/logo.svg" 
               alt="EditalZap" 
               width={200} 

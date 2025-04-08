@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import Image from 'next/image';
+import OptimizedImage from './OptimizedImage';
 import { CheckCircle2, Clock4, Search, Smartphone, Bell, ArrowUpRight } from 'lucide-react';
 
 export default function HowItWorks() {
@@ -103,7 +103,7 @@ export default function HowItWorks() {
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <Image 
+                    <OptimizedImage 
                       src="/images/icon-logo.svg"
                       alt="EditalZap"
                       width={32}

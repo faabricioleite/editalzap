@@ -13,7 +13,7 @@ export default function FAQ() {
     },
     {
       question: "Receberei alertas todos os dias?",
-      answer: "Dependerá da palavra-chave que você cadastrou. Se a palavra-chave for muito comum, você receberá diversos alertas no dia. Tente cadastrar a palavra-chave com mais frequência dentro do seu nicho para receber mais alertas."
+      answer: "Dependerá da palavra-chave que você cadastrou. Se a palavra-chave for muito comum dentro do seu nicho, você receberá diversos alertas no dia. Tente cadastrar a palavra-chave com mais frequência dentro do seu nicho para receber mais alertas."
     },
     {
       question: "Quais informações recebo nos alertas?",

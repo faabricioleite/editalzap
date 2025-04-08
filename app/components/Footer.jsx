@@ -1,8 +1,8 @@
 "use client";
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { Facebook, Instagram, Linkedin, MessageCircle } from 'lucide-react';
+import OptimizedImage from './OptimizedImage';
 
 export default function Footer({ onOpenDemoVideo }) {
   const currentYear = new Date().getFullYear();
@@ -14,7 +14,7 @@ export default function Footer({ onOpenDemoVideo }) {
           {/* Coluna 1 - Logo e Descrição */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <Image
+              <OptimizedImage
                 src="/images/logo-black.svg"
                 alt="EditalZap"
                 width={150}
