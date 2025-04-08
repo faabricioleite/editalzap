@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import Hero from './components/Hero';
 import OpportunitiesMap from './components/OpportunitiesMap';
@@ -10,6 +9,7 @@ import Pricing from './components/Pricing';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import VideoPopup from './components/VideoPopup';
+import OptimizedImage from './components/OptimizedImage';
 
 export default function Home() {
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function Home() {
       <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">
         <div className="flex items-center gap-8 bg-white rounded-full px-4 py-2 shadow-lg">
           <Link href="/">
-            <Image 
+            <OptimizedImage 
               src="/images/logo.svg" 
               alt="EditalZap Logo" 
               width={90}
@@ -57,7 +57,7 @@ export default function Home() {
             Contato
           </a>
           
-          <Link href="sobre" className="text-[#333333] hover:text-gray-900 text-sm hidden md:inline-block">
+          <Link href="#sobre" className="text-[#333333] hover:text-gray-900 text-sm hidden md:inline-block">
             Sobre
           </Link>
           

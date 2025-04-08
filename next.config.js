@@ -3,6 +3,7 @@ const nextConfig = {
   output: 'export', // Gera arquivos estáticos para GitHub Pages
   images: {
     unoptimized: true, // Necessário para exportação estática
+    path: '/editalzap/_next/image',
   },
   basePath: process.env.NODE_ENV === 'production' ? '/editalzap' : '', // Prefixo para URLs no GitHub Pages
   assetPrefix: process.env.NODE_ENV === 'production' ? '/editalzap/' : '', // Prefixo para assets

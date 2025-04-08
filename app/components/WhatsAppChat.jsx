@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { CheckCheck } from 'lucide-react';
+import OptimizedImage from './OptimizedImage';
 
 export default function WhatsAppChat() {
   const [loadingDots, setLoadingDots] = useState(true);
@@ -111,7 +111,7 @@ export default function WhatsAppChat() {
                 </button>
                 <div className="flex items-center flex-1">
                   <div className="relative w-10 h-10 mr-3 bg-gradient-to-r from-[#22A93A] to-[#60D669] rounded-full overflow-hidden flex items-center justify-center">
-                    <Image 
+                    <OptimizedImage 
                       src="/images/icon-logo.svg" 
                       alt="EditalZap Logo" 
                       width={36} 
@@ -139,7 +139,7 @@ export default function WhatsAppChat() {
             {/* Chat Background */}
             <div className="bg-[#E5DDD5] h-[490px] overflow-y-auto pt-2 px-3 pb-16 relative" 
                  style={{
-                   backgroundImage: `url("/images/zap-back.png")`,
+                   backgroundImage: `url("/editalzap/images/zap-back.png")`,
                    backgroundSize: 'cover',
                    backgroundRepeat: 'repeat'
                  }}>

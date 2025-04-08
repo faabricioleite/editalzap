@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>EditalZap - Redirecionando...</title>
+  <script>
+    // Função para obter o caminho sem o domínio base
+    const getPathname = () => {
+      // GitHub Pages serve o site em um subdiretório, então precisamos ajustar
+      const location = window.location;
+      const path = location.pathname;
+      
+      // Se o caminho já começa com /editalzap, removemos esse prefixo
+      return path.startsWith('/editalzap') 
+        ? path.replace('/editalzap', '') 
+        : path;
+    }
+    
+    // Obter o caminho relativo
+    const pathname = getPathname();
+    
+    // Redirecionar para o caminho correto
+    window.location.href = '/editalzap' + (pathname.startsWith('/') ? pathname : '/' + pathname);
+  </script>
+</head>
+<body>
+  <p>Redirecionando...</p>
+</body>
+</html> 
