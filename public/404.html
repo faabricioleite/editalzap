@@ -6,21 +6,31 @@
   <script>
     // Função para obter o caminho sem o domínio base
     const getPathname = () => {
-      // GitHub Pages serve o site em um subdiretório, então precisamos ajustar
       const location = window.location;
       const path = location.pathname;
+      const hostname = location.hostname;
       
-      // Se o caminho já começa com /editalzap, removemos esse prefixo
-      return path.startsWith('/editalzap') 
-        ? path.replace('/editalzap', '') 
-        : path;
-    }
+      // Verifica se estamos em um domínio personalizado
+      const isCustomDomain = hostname === 'editalzap.com.br' || hostname === 'www.editalzap.com.br';
+      
+      if (isCustomDomain) {
+        // No domínio personalizado, usa o caminho diretamente
+        return path;
+      } else if (path.startsWith('/editalzap')) {
+        // Em GitHub Pages, remove o prefixo /editalzap
+        return path.replace('/editalzap', '');
+      } else {
+        return path;
+      }
+    };
     
     // Obter o caminho relativo
     const pathname = getPathname();
     
     // Redirecionar para o caminho correto
-    window.location.href = '/editalzap' + (pathname.startsWith('/') ? pathname : '/' + pathname);
+    const isCustomDomain = window.location.hostname === 'editalzap.com.br' || window.location.hostname === 'www.editalzap.com.br';
+    const basePath = isCustomDomain ? '' : '/editalzap';
+    window.location.href = basePath + (pathname.startsWith('/') ? pathname : '/' + pathname);
   </script>
 </head>
 <body>

@@ -139,7 +139,7 @@ export default function WhatsAppChat() {
             {/* Chat Background */}
             <div className="bg-[#E5DDD5] h-[490px] overflow-y-auto pt-2 px-3 pb-16 relative" 
                  style={{
-                   backgroundImage: `url("/editalzap/images/zap-back.png")`,
+                   backgroundImage: `url("${typeof window !== 'undefined' && (window.location.hostname === 'editalzap.com.br' || window.location.hostname === 'www.editalzap.com.br') ? '' : '/editalzap'}/images/zap-back.png")`,
                    backgroundSize: 'cover',
                    backgroundRepeat: 'repeat'
                  }}>
