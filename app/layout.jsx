@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <head>
         {/* Essential Open Graph tags */}
-        <meta property="og:url" content="https://www.editalzap.com.br" />
+        <meta property="og:url" content="https://www.editalzap.com.br/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="EditalZap | Alertas de licitações pelo WhatsApp" />
         <meta property="og:description" content="Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp" />
@@ -41,6 +41,9 @@ export default function RootLayout({ children }) {
         {/* Favicon tags */}
         <link rel="icon" type="image/png" href="/images/favicon.png" />
         <link rel="apple-touch-icon" href="/images/favicon.png" />
+        
+        {/* Preload image */}
+        <link rel="preload" as="image" href="/images/share.png" type="image/png" />
       </head>
       <body>
         {children}
