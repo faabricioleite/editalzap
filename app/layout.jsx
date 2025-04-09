@@ -4,9 +4,9 @@ export const metadata = {
   title: 'EditalZap | Alertas de licitações pelo WhatsApp',
   description: 'Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp',
   icons: {
-    icon: '/images/icon-logo.svg',
-    apple: '/images/icon-logo.svg',
-    shortcut: '/images/icon-logo.svg'
+    icon: '/images/favicon.png',
+    apple: '/images/favicon.png',
+    shortcut: '/images/favicon.png'
   }
 };
 
