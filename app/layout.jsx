@@ -7,32 +7,30 @@ export const metadata = {
     icon: '/images/favicon.png',
     apple: '/images/favicon.png',
     shortcut: '/images/favicon.png'
-  },
-  openGraph: {
-    title: 'EditalZap | Alertas de licitações pelo WhatsApp',
-    description: 'Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp',
-    images: [
-      {
-        url: '/images/share.png',
-        width: 1200,
-        height: 630,
-        alt: 'EditalZap - Seu alerta inteligente de licitações'
-      }
-    ],
-    locale: 'pt_BR',
-    type: 'website'
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'EditalZap | Alertas de licitações pelo WhatsApp',
-    description: 'Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp',
-    images: ['/images/share.png']
   }
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <meta property="og:title" content="EditalZap | Alertas de licitações pelo WhatsApp" />
+        <meta property="og:description" content="Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.editalzap.com.br" />
+        <meta property="og:image" content="https://www.editalzap.com.br/images/share.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="pt_BR" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="EditalZap | Alertas de licitações pelo WhatsApp" />
+        <meta name="twitter:description" content="Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp" />
+        <meta name="twitter:image" content="https://www.editalzap.com.br/images/share.png" />
+        
+        <link rel="icon" type="image/png" href="/images/favicon.png" />
+        <link rel="apple-touch-icon" href="/images/favicon.png" />
+      </head>
       <body>
         {children}
       </body>
