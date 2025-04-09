@@ -1,0 +1,17 @@
+# Definir tipo MIME correto para imagens PNG
+AddType image/png .png
+
+# Habilitar CORS para imagens
+<FilesMatch "\.(png|jpg|jpeg|gif|svg)$">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+
+# Habilitar compressão GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE image/png
+</IfModule>
+
+# Cache para imagens
+<FilesMatch "\.(png|jpg|jpeg|gif|svg)$">
+    Header set Cache-Control "max-age=31536000, public"
+</FilesMatch> 
