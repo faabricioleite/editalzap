@@ -57,7 +57,7 @@ export default function Home() {
             Contato
           </a>
           
-          <Link href="#sobre" className="text-[#333333] hover:text-gray-900 text-sm hidden md:inline-block">
+          <Link href="sobre" className="text-[#333333] hover:text-gray-900 text-sm hidden md:inline-block">
             Sobre
           </Link>
           
