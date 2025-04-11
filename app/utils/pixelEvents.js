@@ -12,17 +12,18 @@ const PIXEL_ID = '899641102002155';
 
 // Gera um ID único para eventos
 const generateEventId = (eventName) => {
-  return `${eventName.toLowerCase()}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+  try {
+    return `${eventName.toLowerCase()}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+  } catch (error) {
+    return `${eventName.toLowerCase()}_${Date.now()}`;
+  }
 };
 
 // Função para verificar a disponibilidade do fbq
 const isFbqAvailable = () => {
   if (!isClient) return false;
   try {
-    if (typeof window.fbq !== 'function') {
-      return false;
-    }
-    return true;
+    return typeof window.fbq === 'function';
   } catch (error) {
     return false;
   }
@@ -61,16 +62,14 @@ const sendServerEvent = async (eventName, eventId, userData = {}, customData = {
     };
     
     // Enviando o evento para a API de Conversões
-    const response = await fetch(url, requestOptions);
-    const data = await response.json();
-    
-    if (data && data.events_received) {
-      // Sucesso: evento recebido
-    } else if (data && data.error) {
-      console.error('[Meta API] Erro reportado pela API do Facebook:', data.error.message);
-    }
+    return fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        return data && data.events_received;
+      })
+      .catch(() => false);
   } catch (e) {
-    // Erro silencioso para não afetar a experiência do usuário
+    return false;
   }
 };
 
@@ -137,7 +136,7 @@ const getFbcFromUrl = () => {
 
 // Função segura para disparar eventos do pixel
 const safeTrackEvent = (eventName, eventData, options) => {
-  if (!isClient) return;
+  if (!isClient) return false;
   
   try {
     if (typeof window.fbq === 'function') {
@@ -174,9 +173,10 @@ export const trackAddToWishlist = async (name = 'EditalZap Acesso', params = {})
     safeTrackEvent('AddToWishlist', customData, { eventID });
     
     // Enviar evento para a API de Conversões (server-side)
-    await sendServerEvent('AddToWishlist', eventID, getUserData(), customData);
+    return sendServerEvent('AddToWishlist', eventID, getUserData(), customData);
   } catch (error) {
     // Erro silencioso para não afetar a experiência do usuário
+    return false;
   }
 };
 
@@ -204,9 +204,10 @@ export const trackViewContent = async (name = 'Demonstração EditalZap', params
     safeTrackEvent('ViewContent', customData, { eventID });
     
     // Enviar evento para a API de Conversões (server-side)
-    await sendServerEvent('ViewContent', eventID, getUserData(), customData);
+    return sendServerEvent('ViewContent', eventID, getUserData(), customData);
   } catch (error) {
     // Erro silencioso para não afetar a experiência do usuário
+    return false;
   }
 };
 
@@ -234,8 +235,9 @@ export const trackInitiateCheckout = async (name = 'Plano EditalZap', params = {
     safeTrackEvent('InitiateCheckout', customData, { eventID });
     
     // Enviar evento para a API de Conversões (server-side)
-    await sendServerEvent('InitiateCheckout', eventID, getUserData(), customData);
+    return sendServerEvent('InitiateCheckout', eventID, getUserData(), customData);
   } catch (error) {
     // Erro silencioso para não afetar a experiência do usuário
+    return false;
   }
 }; 

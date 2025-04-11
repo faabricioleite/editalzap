@@ -33,6 +33,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
       <head>
+        {/* Meta tag para corrigir erro de Permissions-Policy */}
+        <meta httpEquiv="Permissions-Policy" content="browsing-topics=(), interest-cohort=()" />
+        
         {/* Pixel do Facebook - Colocado no head conforme documentação oficial */}
         <MetaPixel />
         
@@ -60,9 +63,9 @@ export default function RootLayout({ children }) {
         <meta name="twitter:description" content="Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp" />
         <meta name="twitter:image" content="https://www.editalzap.com.br/images/share.png" />
         
-        {/* Favicon tags */}
-        <link rel="icon" type="image/png" href="/images/favicon.png" />
-        <link rel="apple-touch-icon" href="/images/favicon.png" />
+        {/* Favicon tags com URL absoluta */}
+        <link rel="icon" type="image/png" href="https://www.editalzap.com.br/images/favicon.png" />
+        <link rel="apple-touch-icon" href="https://www.editalzap.com.br/images/favicon.png" />
       </head>
       <body className="overflow-x-hidden">
         {children}

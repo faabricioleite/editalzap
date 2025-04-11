@@ -1,3 +1,49 @@
+# Ativar o módulo de reescrita
+RewriteEngine On
+
+# Força HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirecionar /editalzap/ para /
+RewriteRule ^editalzap/(.*)$ /$1 [L,R=301]
+
+# Configuração de cabeçalhos
+<IfModule mod_headers.c>
+  # Desabilitar o FLoC do Google e outros recursos de rastreamento
+  Header always set Permissions-Policy "browsing-topics=(), interest-cohort=()"
+  
+  # Cabeçalhos de segurança
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-XSS-Protection "1; mode=block"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  
+  # CORS - permitir acesso de qualquer origem aos recursos
+  Header always set Access-Control-Allow-Origin "*"
+  Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+  Header always set Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
+</IfModule>
+
+# Caso a página não seja encontrada, redirecionar para a página inicial
+ErrorDocument 404 /index.html
+
+# Comprimir arquivos para melhorar o desempenho
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/javascript application/json application/xml
+</IfModule>
+
+# Cache do navegador
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
 # Definir tipo MIME correto para imagens PNG
 AddType image/png .png
 

@@ -20,7 +20,7 @@ export default function MetaPixel() {
             console.log('[Meta Pixel] PageView disparado manualmente após carregamento da página');
             clearInterval(checkInterval);
           } catch (error) {
-            console.error('[Meta Pixel] Erro ao disparar PageView:', error);
+            // Erro silencioso para não afetar a experiência do usuário
           }
         }
       }, 500);
@@ -36,23 +36,35 @@ export default function MetaPixel() {
   
   return (
     <>
-      {/* Base script - usando estratégia lazyOnload para evitar bloqueios */}
+      {/* Base script - usando estratégia afterInteractive para melhor compatibilidade */}
       <Script
         id="facebook-pixel-base"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
+            !function(f,b,e,v,n,t,s) {
+              if(f.fbq) return;
+              n=f.fbq=function() {
+                n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+              };
+              if(!f._fbq) f._fbq=n;
+              n.push=n;
+              n.loaded=!0;
+              n.version='2.0';
+              n.queue=[];
+              t=b.createElement(e);
+              t.async=!0;
+              t.src=v;
+              s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)
+            }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
             
-            fbq('init', '${PIXEL_ID}');
-            fbq('track', 'PageView');
+            try {
+              fbq('init', '${PIXEL_ID}');
+              fbq('track', 'PageView');
+            } catch(e) {
+              // Erro silencioso
+            }
           `,
         }}
       />
