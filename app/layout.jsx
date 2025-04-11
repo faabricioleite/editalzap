@@ -31,7 +31,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
         {/* Meta tag para corrigir erro de Permissions-Policy */}
         <meta httpEquiv="Permissions-Policy" content="browsing-topics=(), interest-cohort=()" />

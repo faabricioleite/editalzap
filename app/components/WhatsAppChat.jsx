@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CheckCheck } from 'lucide-react';
 import OptimizedImage from './OptimizedImage';
 
@@ -8,6 +8,7 @@ export default function WhatsAppChat() {
   const [loadingDots, setLoadingDots] = useState(true);
   const [shownMessages, setShownMessages] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
+  const chatBgRef = useRef(null);
   
   const messages = [
     { 
@@ -45,6 +46,21 @@ export default function WhatsAppChat() {
       return () => clearTimeout(timer);
     }
   }, [loadingDots]);
+
+  // Configurar o background da imagem após a renderização no cliente
+  useEffect(() => {
+    if (chatBgRef.current) {
+      const isCustomDomain = typeof window !== 'undefined' && 
+        (window.location.hostname === 'editalzap.com.br' || 
+         window.location.hostname === 'www.editalzap.com.br');
+      
+      const bgImagePath = `${isCustomDomain ? '' : '/editalzap'}/images/zap-back.png`;
+      
+      chatBgRef.current.style.backgroundImage = `url("${bgImagePath}")`;
+      chatBgRef.current.style.backgroundSize = 'cover';
+      chatBgRef.current.style.backgroundRepeat = 'repeat';
+    }
+  }, []);
 
   const showNextMessage = () => {
     if (shownMessages < messages.length) {
@@ -137,12 +153,9 @@ export default function WhatsAppChat() {
             </div>
             
             {/* Chat Background */}
-            <div className="bg-[#E5DDD5] h-[490px] overflow-y-auto pt-2 px-3 pb-16 relative" 
-                 style={{
-                   backgroundImage: `url("${typeof window !== 'undefined' && (window.location.hostname === 'editalzap.com.br' || window.location.hostname === 'www.editalzap.com.br') ? '' : '/editalzap'}/images/zap-back.png")`,
-                   backgroundSize: 'cover',
-                   backgroundRepeat: 'repeat'
-                 }}>
+            <div 
+              ref={chatBgRef}
+              className="bg-[#E5DDD5] h-[490px] overflow-y-auto pt-2 px-3 pb-16 relative">
               
               {/* WhatsApp Info Bar */}
               <div className="bg-[#ECE5DD] rounded-lg py-1 px-3 mb-2 text-center">
