@@ -1,6 +1,4 @@
 import './globals.css';
-import { Suspense } from 'react';
-import MetaPixel from './components/MetaPixel';
 
 export const metadata = {
   title: 'EditalZap | Alertas de licitações pelo WhatsApp',
@@ -49,9 +47,6 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
-        <Suspense fallback={null}>
-          <MetaPixel />
-        </Suspense>
       </body>
     </html>
   );
