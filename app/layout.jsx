@@ -1,4 +1,5 @@
 import './globals.css';
+import MetaPixel from './components/MetaPixel';
 
 export const metadata = {
   title: 'EditalZap | Alertas de licitações pelo WhatsApp',
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/images/share.png" type="image/png" />
       </head>
       <body>
+        <MetaPixel />
         {children}
       </body>
     </html>
