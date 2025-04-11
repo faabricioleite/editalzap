@@ -19,7 +19,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://editalzap.com.br/images/zap-back.png',
+        url: 'https://editalzap.com.br/images/share.png',
         width: 1200,
         height: 630,
         alt: 'Edital Zap - Alertas de licitações no WhatsApp',
@@ -42,7 +42,7 @@ export default function RootLayout({ children }) {
         <meta property="og:title" content="EditalZap | Alertas de licitações pelo WhatsApp" />
         <meta property="og:description" content="Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp" />
         
-        {/* Image tags with explicit dimensions */}
+        {/* Image tags com dimensões explícitas - usando share.png que existe na pasta public/images */}
         <meta property="og:image" content="https://www.editalzap.com.br/images/share.png" />
         <meta property="og:image:secure_url" content="https://www.editalzap.com.br/images/share.png" />
         <meta property="og:image:type" content="image/png" />
@@ -63,11 +63,8 @@ export default function RootLayout({ children }) {
         {/* Favicon tags */}
         <link rel="icon" type="image/png" href="/images/favicon.png" />
         <link rel="apple-touch-icon" href="/images/favicon.png" />
-        
-        {/* Preload image */}
-        <link rel="preload" as="image" href="/images/share.png" type="image/png" />
       </head>
-      <body>
+      <body className="overflow-x-hidden">
         {children}
       </body>
     </html>

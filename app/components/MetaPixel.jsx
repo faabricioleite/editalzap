@@ -13,11 +13,15 @@ export default function MetaPixel() {
       // Verificar se o fbq está disponível a cada 500ms
       const checkInterval = setInterval(() => {
         if (typeof window.fbq === 'function') {
-          // Reinicializar o pixel e forçar o PageView
-          window.fbq('init', PIXEL_ID);
-          window.fbq('track', 'PageView');
-          console.log('[Meta Pixel] PageView disparado manualmente após carregamento da página');
-          clearInterval(checkInterval);
+          try {
+            // Reinicializar o pixel e forçar o PageView
+            window.fbq('init', PIXEL_ID);
+            window.fbq('track', 'PageView');
+            console.log('[Meta Pixel] PageView disparado manualmente após carregamento da página');
+            clearInterval(checkInterval);
+          } catch (error) {
+            console.error('[Meta Pixel] Erro ao disparar PageView:', error);
+          }
         }
       }, 500);
       
@@ -32,16 +36,10 @@ export default function MetaPixel() {
   
   return (
     <>
-      {/* 
-        Implementação conforme a documentação oficial do Meta Pixel
-        https://developers.facebook.com/docs/meta-pixel/implementation
-        
-        Usando a estratégia beforeInteractive para garantir carregamento precoce
-        e innerHtml para garantir que o script seja executado exatamente como recomendado
-      */}
+      {/* Base script - usando estratégia lazyOnload para evitar bloqueios */}
       <Script
         id="facebook-pixel-base"
-        strategy="beforeInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             !function(f,b,e,v,n,t,s)
@@ -59,24 +57,7 @@ export default function MetaPixel() {
         }}
       />
       
-      {/* Garantia adicional de inicialização após o carregamento da página */}
-      <Script
-        id="facebook-pixel-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            if (typeof fbq === 'function') {
-              fbq('init', '${PIXEL_ID}');
-              fbq('track', 'PageView');
-              console.log('[Meta Pixel] PageView disparado via script afterInteractive');
-            } else {
-              console.error('[Meta Pixel] fbq não disponível no script afterInteractive');
-            }
-          `,
-        }}
-      />
-      
-      {/* Noscript para navegadores com JavaScript desabilitado */}
+      {/* Fallback para navegadores com JavaScript desabilitado */}
       <noscript>
         <img 
           height="1" 

@@ -18,11 +18,14 @@ const generateEventId = (eventName) => {
 // Função para verificar a disponibilidade do fbq
 const isFbqAvailable = () => {
   if (!isClient) return false;
-  if (typeof window.fbq !== 'function') {
-    console.warn('[Meta Pixel] Facebook Pixel (fbq) não está disponível');
+  try {
+    if (typeof window.fbq !== 'function') {
+      return false;
+    }
+    return true;
+  } catch (error) {
     return false;
   }
-  return true;
 };
 
 // Função para enviar eventos para a API de Conversões do Facebook
@@ -30,13 +33,6 @@ const sendServerEvent = async (eventName, eventId, userData = {}, customData = {
   if (!isClient) return;
   
   try {
-    // Coletando informações do usuário para melhor correspondência
-    const userDataParams = {
-      client_user_agent: navigator.userAgent,
-      client_ip_address: null, // O IP será detectado pelo servidor do Facebook
-      ...userData
-    };
-    
     // Preparando os dados do evento
     const eventData = {
       event_name: eventName,
@@ -44,7 +40,10 @@ const sendServerEvent = async (eventName, eventId, userData = {}, customData = {
       event_id: eventId,
       event_source_url: window.location.href,
       action_source: 'website',
-      user_data: userDataParams,
+      user_data: {
+        client_user_agent: navigator.userAgent,
+        ...userData
+      },
       custom_data: customData
     };
     
@@ -57,9 +56,7 @@ const sendServerEvent = async (eventName, eventId, userData = {}, customData = {
       },
       body: JSON.stringify({
         data: [eventData],
-        access_token: FACEBOOK_ACCESS_TOKEN,
-        // Remova o test_event_code em produção
-        // test_event_code: 'TEST12345' 
+        access_token: FACEBOOK_ACCESS_TOKEN
       })
     };
     
@@ -68,12 +65,12 @@ const sendServerEvent = async (eventName, eventId, userData = {}, customData = {
     const data = await response.json();
     
     if (data && data.events_received) {
-      console.log(`[Meta Conversions API] Evento ${eventName} enviado com sucesso. EventID: ${eventId}`);
-    } else {
-      console.error('[Meta Conversions API] Erro ao enviar evento:', data);
+      // Sucesso: evento recebido
+    } else if (data && data.error) {
+      console.error('[Meta API] Erro reportado pela API do Facebook:', data.error.message);
     }
   } catch (e) {
-    console.error('[Meta Conversions API] Erro ao enviar evento para o servidor:', e);
+    // Erro silencioso para não afetar a experiência do usuário
   }
 };
 
@@ -81,17 +78,14 @@ const sendServerEvent = async (eventName, eventId, userData = {}, customData = {
 const initializePixel = () => {
   if (!isClient) return false;
   
-  if (typeof window.fbq === 'function') {
-    try {
-      // Inicializa o pixel e garante que o PageView seja rastreado
+  try {
+    if (typeof window.fbq === 'function') {
       window.fbq('init', PIXEL_ID);
       window.fbq('track', 'PageView');
-      console.log('[Meta Pixel] Pixel inicializado manualmente');
       return true;
-    } catch (e) {
-      console.error('[Meta Pixel] Erro ao inicializar pixel:', e);
-      return false;
     }
+  } catch (error) {
+    // Erro silencioso
   }
   
   return false;
@@ -101,24 +95,29 @@ const initializePixel = () => {
 const getUserData = () => {
   if (!isClient) return {};
   
-  // Dados básicos que podem estar disponíveis
-  const userData = {
-    client_user_agent: navigator.userAgent,
-    fbp: getCookie('_fbp') || undefined,
-    fbc: getCookie('_fbc') || getFbcFromUrl(),
-    external_id: getCookie('user_id') || undefined
-  };
-  
-  return userData;
+  try {
+    // Dados básicos que podem estar disponíveis
+    return {
+      client_user_agent: navigator.userAgent,
+      fbp: getCookie('_fbp') || undefined,
+      fbc: getCookie('_fbc') || getFbcFromUrl()
+    };
+  } catch (error) {
+    return {};
+  }
 };
 
 // Função auxiliar para obter cookies
 const getCookie = (name) => {
   if (!isClient) return null;
   
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
+  try {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  } catch (error) {
+    // Erro silencioso
+  }
   return null;
 };
 
@@ -126,10 +125,29 @@ const getCookie = (name) => {
 const getFbcFromUrl = () => {
   if (!isClient) return null;
   
-  const params = new URLSearchParams(window.location.search);
-  const fbclid = params.get('fbclid');
-  if (fbclid) return `fb.1.${Date.now()}.${fbclid}`;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const fbclid = params.get('fbclid');
+    if (fbclid) return `fb.1.${Date.now()}.${fbclid}`;
+  } catch (error) {
+    // Erro silencioso
+  }
   return null;
+};
+
+// Função segura para disparar eventos do pixel
+const safeTrackEvent = (eventName, eventData, options) => {
+  if (!isClient) return;
+  
+  try {
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', eventName, eventData, options);
+      return true;
+    }
+  } catch (error) {
+    // Erro silencioso
+  }
+  return false;
 };
 
 // Função para adicionar à lista de desejos
@@ -137,44 +155,28 @@ export const trackAddToWishlist = async (name = 'EditalZap Acesso', params = {})
   if (!isClient) return;
   
   try {
-    // Verificar e inicializar o pixel se necessário
-    if (!isFbqAvailable()) {
-      // Tenta inicializar automaticamente
-      initializePixel();
-      
-      // Se fbq ainda não estiver disponível após a tentativa, apenas log e continua
-      if (!isFbqAvailable()) {
-        console.warn('[Meta Pixel] fbq ainda não disponível após tentativa de inicialização para AddToWishlist');
-      }
-    }
-    
     // Gerar ID único para este evento
     const eventID = generateEventId('addtowishlist');
     
-    // Dados do evento para a API de Conversões
+    // Dados do evento
     const customData = {
       content_name: name,
       content_category: 'acesso',
       ...params
     };
     
-    // Rastreamos o evento com parâmetros e eventID no navegador (Client-side)
-    if (typeof window.fbq === 'function') {
-      try {
-        window.fbq('track', 'AddToWishlist', customData, {
-          eventID: eventID
-        });
-        console.log('[Meta Pixel] AddToWishlist event tracked:', name, 'EventID:', eventID);
-      } catch (e) {
-        console.error('[Meta Pixel] Erro ao rastrear AddToWishlist via browser:', e);
-      }
+    // Tentar inicializar o pixel se necessário
+    if (!isFbqAvailable()) {
+      initializePixel();
     }
     
-    // Enviamos o mesmo evento para a API de Conversões (Server-side)
-    await sendServerEvent('AddToWishlist', eventID, getUserData(), customData);
+    // Disparar evento no navegador (client-side)
+    safeTrackEvent('AddToWishlist', customData, { eventID });
     
-  } catch (e) {
-    console.error('[Meta Pixel] Erro ao rastrear evento AddToWishlist:', e);
+    // Enviar evento para a API de Conversões (server-side)
+    await sendServerEvent('AddToWishlist', eventID, getUserData(), customData);
+  } catch (error) {
+    // Erro silencioso para não afetar a experiência do usuário
   }
 };
 
@@ -183,44 +185,28 @@ export const trackViewContent = async (name = 'Demonstração EditalZap', params
   if (!isClient) return;
   
   try {
-    // Verificar e inicializar o pixel se necessário
-    if (!isFbqAvailable()) {
-      // Tenta inicializar automaticamente
-      initializePixel();
-      
-      // Se fbq ainda não estiver disponível após a tentativa, apenas log e continua
-      if (!isFbqAvailable()) {
-        console.warn('[Meta Pixel] fbq ainda não disponível após tentativa de inicialização para ViewContent');
-      }
-    }
-    
     // Gerar ID único para este evento
     const eventID = generateEventId('viewcontent');
     
-    // Dados do evento para a API de Conversões
+    // Dados do evento
     const customData = {
       content_name: name,
       content_type: 'product',
       ...params
     };
     
-    // Rastreamos o evento com parâmetros e eventID no navegador (Client-side)
-    if (typeof window.fbq === 'function') {
-      try {
-        window.fbq('track', 'ViewContent', customData, {
-          eventID: eventID
-        });
-        console.log('[Meta Pixel] ViewContent event tracked:', name, 'EventID:', eventID);
-      } catch (e) {
-        console.error('[Meta Pixel] Erro ao rastrear ViewContent via browser:', e);
-      }
+    // Tentar inicializar o pixel se necessário
+    if (!isFbqAvailable()) {
+      initializePixel();
     }
     
-    // Enviamos o mesmo evento para a API de Conversões (Server-side)
-    await sendServerEvent('ViewContent', eventID, getUserData(), customData);
+    // Disparar evento no navegador (client-side)
+    safeTrackEvent('ViewContent', customData, { eventID });
     
-  } catch (e) {
-    console.error('[Meta Pixel] Erro ao rastrear evento ViewContent:', e);
+    // Enviar evento para a API de Conversões (server-side)
+    await sendServerEvent('ViewContent', eventID, getUserData(), customData);
+  } catch (error) {
+    // Erro silencioso para não afetar a experiência do usuário
   }
 };
 
@@ -229,43 +215,27 @@ export const trackInitiateCheckout = async (name = 'Plano EditalZap', params = {
   if (!isClient) return;
   
   try {
-    // Verificar e inicializar o pixel se necessário
-    if (!isFbqAvailable()) {
-      // Tenta inicializar automaticamente
-      initializePixel();
-      
-      // Se fbq ainda não estiver disponível após a tentativa, apenas log e continua
-      if (!isFbqAvailable()) {
-        console.warn('[Meta Pixel] fbq ainda não disponível após tentativa de inicialização para InitiateCheckout');
-      }
-    }
-    
     // Gerar ID único para este evento
     const eventID = generateEventId('initiatecheckout');
     
-    // Dados do evento para a API de Conversões
+    // Dados do evento
     const customData = {
       content_name: name,
       content_category: 'plano',
       ...params
     };
     
-    // Rastreamos o evento com parâmetros e eventID no navegador (Client-side)
-    if (typeof window.fbq === 'function') {
-      try {
-        window.fbq('track', 'InitiateCheckout', customData, {
-          eventID: eventID
-        });
-        console.log('[Meta Pixel] InitiateCheckout event tracked:', name, 'EventID:', eventID);
-      } catch (e) {
-        console.error('[Meta Pixel] Erro ao rastrear InitiateCheckout via browser:', e);
-      }
+    // Tentar inicializar o pixel se necessário
+    if (!isFbqAvailable()) {
+      initializePixel();
     }
     
-    // Enviamos o mesmo evento para a API de Conversões (Server-side)
-    await sendServerEvent('InitiateCheckout', eventID, getUserData(), customData);
+    // Disparar evento no navegador (client-side)
+    safeTrackEvent('InitiateCheckout', customData, { eventID });
     
-  } catch (e) {
-    console.error('[Meta Pixel] Erro ao rastrear evento InitiateCheckout:', e);
+    // Enviar evento para a API de Conversões (server-side)
+    await sendServerEvent('InitiateCheckout', eventID, getUserData(), customData);
+  } catch (error) {
+    // Erro silencioso para não afetar a experiência do usuário
   }
 }; 
