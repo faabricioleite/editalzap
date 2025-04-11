@@ -1,55 +1,11 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import PurchaseTracker from '../components/PurchaseTracker';
 
 export default function ObrigadoEssencial() {
-  useEffect(() => {
-    // Disparar o evento de compra (purchase) quando a página carregar
-    if (typeof window !== 'undefined') {
-      // Aguardar a inicialização do Pixel
-      const checkFbq = setInterval(() => {
-        if (typeof window.fbq === 'function') {
-          // Disparar o evento usando o Facebook Pixel
-          window.fbq('track', 'Purchase', {
-            currency: 'BRL',
-            value: 37.00,
-            content_name: 'Zap Essencial',
-            content_type: 'product',
-            content_ids: ['zap-essencial'],
-          });
-          
-          console.log('[Meta Pixel] Evento Purchase disparado para o plano Zap Essencial');
-          clearInterval(checkFbq);
-        }
-      }, 300);
-      
-      // Verificar se a função sendFBEvent global está disponível (implementação da Conversion API)
-      const checkSendEvent = setInterval(() => {
-        if (typeof window.sendFBEvent === 'function') {
-          // Disparar o evento via Pixel browser + Conversion API
-          window.sendFBEvent('Purchase', {
-            currency: 'BRL',
-            value: 37.00,
-            content_name: 'Zap Essencial',
-            content_type: 'product',
-            content_ids: ['zap-essencial'],
-          });
-          
-          console.log('[Meta Conversion API] Evento Purchase disparado para o plano Zap Essencial');
-          clearInterval(checkSendEvent);
-        }
-      }, 300);
-      
-      // Limpar os intervalos após 5 segundos para evitar tentativas infinitas
-      setTimeout(() => {
-        clearInterval(checkFbq);
-        clearInterval(checkSendEvent);
-      }, 5000);
-    }
-  }, []);
-
   return (
     <main className="gradient-bg min-h-screen flex flex-col items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
@@ -112,6 +68,9 @@ export default function ObrigadoEssencial() {
           Voltar para a página inicial
         </Link>
       </div>
+      
+      {/* Rastreador de conversão */}
+      <PurchaseTracker />
     </main>
   );
 } 
