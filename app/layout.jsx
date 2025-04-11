@@ -48,10 +48,10 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/images/share.png" type="image/png" />
       </head>
       <body>
+        {children}
         <Suspense fallback={null}>
           <MetaPixel />
         </Suspense>
-        {children}
       </body>
     </html>
   );
