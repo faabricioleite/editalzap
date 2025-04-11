@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import OptimizedImage from '../components/OptimizedImage';
+import Image from 'next/image';
 
 export default function ObrigadoEssencial() {
   useEffect(() => {
@@ -55,8 +55,8 @@ export default function ObrigadoEssencial() {
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <OptimizedImage 
-            src="/images/logo.svg" 
+          <Image 
+            src="https://editalzap.com.br/images/logo.svg" 
             alt="EditalZap Logo" 
             width={180}
             height={48}

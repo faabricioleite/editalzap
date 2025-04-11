@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import OptimizedImage from '../components/OptimizedImage';
+import Image from 'next/image';
 
 export default function ObrigadoEmpresarial() {
   useEffect(() => {
@@ -55,24 +55,14 @@ export default function ObrigadoEmpresarial() {
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <OptimizedImage 
-            src="/images/logo.svg" 
+          <Image 
+            src="https://editalzap.com.br/images/logo.svg" 
             alt="EditalZap Logo" 
             width={180}
             height={48}
             className="w-auto h-12"
             priority
           />
-        </div>
-        
-        {/* Tag Premium */}
-        <div className="flex justify-center mb-4">
-          <div className="bg-yellow-100 text-yellow-600 text-sm px-4 py-1 rounded-full font-medium flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-            </svg>
-            Premium
-          </div>
         </div>
         
         {/* Ícone de sucesso */}
