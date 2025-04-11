@@ -2,19 +2,40 @@ import './globals.css';
 import MetaPixel from './components/MetaPixel';
 
 export const metadata = {
-  title: 'EditalZap | Alertas de licitações pelo WhatsApp',
-  description: 'Alertas de novas licitações publicadas na plataforma PNCP, enviados diretamente para seu WhatsApp',
+  title: 'Edital Zap - Receba oportunidades de licitações no WhatsApp',
+  description: 'Receba oportunidades de licitações da Lei 14.133/2021 direto no seu WhatsApp.',
+  metadataBase: new URL('https://editalzap.com.br'),
   icons: {
     icon: '/images/favicon.png',
+    shortcut: '/images/favicon.png',
     apple: '/images/favicon.png',
-    shortcut: '/images/favicon.png'
-  }
+  },
+  openGraph: {
+    title: 'Edital Zap - Receba oportunidades de licitações no WhatsApp',
+    description: 'Receba oportunidades de licitações da Lei 14.133/2021 direto no seu WhatsApp.',
+    url: 'https://editalzap.com.br',
+    siteName: 'Edital Zap',
+    locale: 'pt_BR',
+    type: 'website',
+    images: [
+      {
+        url: 'https://editalzap.com.br/images/zap-back.png',
+        width: 1200,
+        height: 630,
+        alt: 'Edital Zap - Alertas de licitações no WhatsApp',
+        type: 'image/png',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
       <head>
+        {/* Pixel do Facebook - Colocado no head conforme documentação oficial */}
+        <MetaPixel />
+        
         {/* Essential Open Graph tags */}
         <meta property="og:url" content="https://www.editalzap.com.br/" />
         <meta property="og:type" content="website" />
@@ -47,7 +68,6 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/images/share.png" type="image/png" />
       </head>
       <body>
-        <MetaPixel />
         {children}
       </body>
     </html>
