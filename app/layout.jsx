@@ -1,13 +1,6 @@
 import './globals.css';
-import { Poppins } from 'next/font/google';
 import MetaPixel from './components/MetaPixel';
 import AttributionTracker from './components/AttributionTracker';
-import FbClidTracker from './components/FbClidTracker';
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
-});
 
 export const metadata = {
   title: 'EditalZap | Receba oportunidades de licitações no WhatsApp',
@@ -78,9 +71,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" href="https://www.editalzap.com.br/images/favicon.png" />
         <link rel="apple-touch-icon" href="https://www.editalzap.com.br/images/favicon.png" />
       </head>
-      <body className={`${poppins.className} overflow-x-hidden`}>
-        <MetaPixel />
-        <FbClidTracker />
+      <body className="overflow-x-hidden">
         {children}
       </body>
     </html>
