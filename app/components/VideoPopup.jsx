@@ -62,6 +62,13 @@ export default function VideoPopup({ isOpen, onClose }) {
       : "https://player.vimeo.com/video/1074965689?autoplay=1&title=0&byline=0&portrait=0";
   };
 
+  // Determinar qual thumbnail usar baseado no dispositivo
+  const getThumbnailUrl = () => {
+    return isMobile 
+      ? "/images/Thumbnail do EditalZap-mobile.png"
+      : "/images/Thumbnail do EditalZap.png";
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -98,7 +105,7 @@ export default function VideoPopup({ isOpen, onClose }) {
               onClick={() => setIsPlaying(true)}
             >
               <img
-                src="/images/Thumbnail do EditalZap.png"
+                src={getThumbnailUrl()}
                 alt="Thumbnail do vídeo"
                 className="w-full h-full object-cover"
               />
