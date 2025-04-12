@@ -77,6 +77,10 @@ export default function VideoPopup({ isOpen, onClose }) {
     setTimeout(() => setVideoLoaded(true), 100);
   };
 
+  // URLs das thumbnails
+  const mobileThumbnail = "/images/Thumbnail do EditalZap-mobile.png";
+  const desktopThumbnail = "/images/Thumbnail do EditalZap.png";
+
   if (!isOpen) return null;
 
   return (
@@ -107,24 +111,18 @@ export default function VideoPopup({ isOpen, onClose }) {
               onClick={handlePlayClick}
             >
               {isMobile ? (
-                <Image
-                  src={require('../../public/images/Thumbnail do EditalZap-mobile.png').default}
+                // Versão mobile da thumbnail
+                <img 
+                  src={mobileThumbnail}
                   alt="Thumbnail do vídeo (mobile)"
-                  fill
-                  priority
-                  quality={90}
-                  className="object-cover"
-                  unoptimized={true}
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               ) : (
-                <Image
-                  src={require('../../public/images/Thumbnail do EditalZap.png').default}
+                // Versão desktop da thumbnail
+                <img 
+                  src={desktopThumbnail}
                   alt="Thumbnail do vídeo"
-                  fill
-                  priority
-                  quality={90}
-                  className="object-cover"
-                  unoptimized={true}
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               )}
               

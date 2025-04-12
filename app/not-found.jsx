@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function NotFound() {
   return (
@@ -10,14 +9,12 @@ export default function NotFound() {
       <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
         <div className="mb-6">
           <Link href="/">
-            <Image 
-              src={require('../public/images/logo.svg').default}
+            <img 
+              src="/images/logo.svg" 
               alt="EditalZap" 
               width={200} 
               height={60} 
               className="mx-auto w-auto h-12"
-              priority
-              unoptimized={true}
             />
           </Link>
         </div>
