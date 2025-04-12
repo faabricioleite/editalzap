@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 
-export default function FbclidTracker() {
+export default function FbClidTracker() {
   return (
     <Script
       id="fbclid-tracker"
@@ -29,15 +29,16 @@ export default function FbclidTracker() {
               }
           });
           
-          // Executar também imediatamente, para o caso do script carregar após o DOMContentLoaded
+          // Garantir que o código execute mesmo se for carregado após o DOMContentLoaded
           (function() {
-              const fbclid = getUrlParameter('fbclid');
-              if (fbclid) {
-                  // Armazenar em localStorage
-                  localStorage.setItem('editalzap_fbclid', fbclid);
-                  // Armazenar também como cookie (para maior compatibilidade)
-                  document.cookie = "editalzap_fbclid=" + fbclid + "; path=/; max-age=2592000; SameSite=Lax";
-                  console.log("fbclid capturado e armazenado imediatamente:", fbclid);
+              // Verificar se o documento já está pronto
+              if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                  const fbclid = getUrlParameter('fbclid');
+                  if (fbclid) {
+                      localStorage.setItem('editalzap_fbclid', fbclid);
+                      document.cookie = "editalzap_fbclid=" + fbclid + "; path=/; max-age=2592000; SameSite=Lax";
+                      console.log("fbclid capturado e armazenado (execução tardia):", fbclid);
+                  }
               }
           })();
         `

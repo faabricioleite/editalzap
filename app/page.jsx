@@ -10,7 +10,7 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import VideoPopup from './components/VideoPopup';
 import OptimizedImage from './components/OptimizedImage';
-import FbclidTracker from './components/FbclidTracker';
+import FbClidTracker from './components/FbClidTracker';
 
 export default function Home() {
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <main className="gradient-bg min-h-screen relative">
       {/* Rastreador de fbclid */}
-      <FbclidTracker />
+      <FbClidTracker />
       
       {/* Navbar fixa centralizada */}
       <div className="fixed top-4 left-0 right-0 z-50 flex justify-center">

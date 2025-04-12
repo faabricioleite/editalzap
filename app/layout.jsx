@@ -1,9 +1,16 @@
 import './globals.css';
+import { Poppins } from 'next/font/google';
 import MetaPixel from './components/MetaPixel';
 import AttributionTracker from './components/AttributionTracker';
+import FbClidTracker from './components/FbClidTracker';
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+});
 
 export const metadata = {
-  title: 'Edital Zap - Receba oportunidades de licitações no WhatsApp',
+  title: 'EditalZap | Receba oportunidades de licitações no WhatsApp',
   description: 'Receba oportunidades de licitações da Lei 14.133/2021 direto no seu WhatsApp.',
   metadataBase: new URL('https://editalzap.com.br'),
   icons: {
@@ -12,7 +19,7 @@ export const metadata = {
     apple: '/images/favicon.png',
   },
   openGraph: {
-    title: 'Edital Zap - Receba oportunidades de licitações no WhatsApp',
+    title: 'EditalZap | Receba oportunidades de licitações no WhatsApp',
     description: 'Receba oportunidades de licitações da Lei 14.133/2021 direto no seu WhatsApp.',
     url: 'https://editalzap.com.br',
     siteName: 'Edital Zap',
@@ -23,7 +30,7 @@ export const metadata = {
         url: 'https://editalzap.com.br/images/share.png',
         width: 1200,
         height: 630,
-        alt: 'Edital Zap - Alertas de licitações no WhatsApp',
+        alt: 'EditalZap | Alertas de licitações no WhatsApp',
         type: 'image/png',
       },
     ],
@@ -71,7 +78,9 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" href="https://www.editalzap.com.br/images/favicon.png" />
         <link rel="apple-touch-icon" href="https://www.editalzap.com.br/images/favicon.png" />
       </head>
-      <body className="overflow-x-hidden">
+      <body className={`${poppins.className} overflow-x-hidden`}>
+        <MetaPixel />
+        <FbClidTracker />
         {children}
       </body>
     </html>
