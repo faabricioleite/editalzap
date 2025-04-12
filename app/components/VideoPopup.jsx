@@ -70,13 +70,6 @@ export default function VideoPopup({ isOpen, onClose }) {
       : "https://player.vimeo.com/video/1074965689?autoplay=1&title=0&byline=0&portrait=0";
   };
 
-  // Determinar qual thumbnail usar baseado no dispositivo
-  const getThumbnailSrc = () => {
-    return isMobile 
-      ? "/images/Thumbnail do EditalZap-mobile.png"
-      : "/images/Thumbnail do EditalZap.png";
-  };
-
   // Função para iniciar o vídeo
   const handlePlayClick = () => {
     setIsPlaying(true);
@@ -113,13 +106,28 @@ export default function VideoPopup({ isOpen, onClose }) {
               className="absolute inset-0 cursor-pointer group"
               onClick={handlePlayClick}
             >
-              <img
-                src={getThumbnailSrc()}
-                alt="Thumbnail do vídeo"
-                className="w-full h-full object-cover"
-                width={isMobile ? 375 : 1280}
-                height={isMobile ? 667 : 720}
-              />
+              {isMobile ? (
+                <Image
+                  src={require('../../public/images/Thumbnail do EditalZap-mobile.png').default}
+                  alt="Thumbnail do vídeo (mobile)"
+                  fill
+                  priority
+                  quality={90}
+                  className="object-cover"
+                  unoptimized={true}
+                />
+              ) : (
+                <Image
+                  src={require('../../public/images/Thumbnail do EditalZap.png').default}
+                  alt="Thumbnail do vídeo"
+                  fill
+                  priority
+                  quality={90}
+                  className="object-cover"
+                  unoptimized={true}
+                />
+              )}
+              
               {/* Botão de play customizado */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
