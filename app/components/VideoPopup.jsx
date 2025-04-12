@@ -2,10 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import Image from 'next/image';
 
 export default function VideoPopup({ isOpen, onClose }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   // Detectar se é dispositivo móvel
   useEffect(() => {
@@ -23,13 +25,20 @@ export default function VideoPopup({ isOpen, onClose }) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Resetar estado quando fechado
+  useEffect(() => {
+    if (!isOpen) {
+      setIsPlaying(false);
+      setVideoLoaded(false);
+    }
+  }, [isOpen]);
+
   // Prevenir rolagem quando o popup estiver aberto
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
-      setIsPlaying(false); // Reset do estado de reprodução ao fechar
     }
     
     return () => {
@@ -42,7 +51,6 @@ export default function VideoPopup({ isOpen, onClose }) {
     const handleEsc = (e) => {
       if (e.key === 'Escape') {
         onClose();
-        setIsPlaying(false); // Reset do estado de reprodução ao fechar com ESC
       }
     };
     
@@ -63,10 +71,17 @@ export default function VideoPopup({ isOpen, onClose }) {
   };
 
   // Determinar qual thumbnail usar baseado no dispositivo
-  const getThumbnailUrl = () => {
+  const getThumbnailSrc = () => {
     return isMobile 
       ? "/images/Thumbnail do EditalZap-mobile.png"
       : "/images/Thumbnail do EditalZap.png";
+  };
+
+  // Função para iniciar o vídeo
+  const handlePlayClick = () => {
+    setIsPlaying(true);
+    // Pequeno atraso para garantir que iframe seja criado antes de tentar interagir
+    setTimeout(() => setVideoLoaded(true), 100);
   };
 
   if (!isOpen) return null;
@@ -76,20 +91,14 @@ export default function VideoPopup({ isOpen, onClose }) {
       {/* Background com blur */}
       <div 
         className="absolute inset-0 bg-black/60 backdrop-blur-md"
-        onClick={() => {
-          onClose();
-          setIsPlaying(false); // Reset do estado de reprodução ao fechar clicando fora
-        }}
+        onClick={onClose}
       />
       
       {/* Container do vídeo */}
       <div className={`relative z-10 w-full mx-4 bg-black rounded-xl shadow-2xl overflow-hidden ${isMobile ? 'max-w-md' : 'max-w-4xl'}`}>
         {/* Botão de fechar */}
         <button 
-          onClick={() => {
-            onClose();
-            setIsPlaying(false); // Reset do estado de reprodução ao fechar com o botão X
-          }}
+          onClick={onClose}
           className="absolute top-3 right-3 z-20 p-1 bg-white/80 hover:bg-white rounded-full text-gray-800"
           aria-label="Fechar"
         >
@@ -102,12 +111,14 @@ export default function VideoPopup({ isOpen, onClose }) {
             // Thumbnail com botão de play
             <div 
               className="absolute inset-0 cursor-pointer group"
-              onClick={() => setIsPlaying(true)}
+              onClick={handlePlayClick}
             >
               <img
-                src={getThumbnailUrl()}
+                src={getThumbnailSrc()}
                 alt="Thumbnail do vídeo"
                 className="w-full h-full object-cover"
+                width={isMobile ? 375 : 1280}
+                height={isMobile ? 667 : 720}
               />
               {/* Botão de play customizado */}
               <div className="absolute inset-0 flex items-center justify-center">
@@ -117,15 +128,23 @@ export default function VideoPopup({ isOpen, onClose }) {
               </div>
             </div>
           ) : (
-            // Iframe do Vimeo
-            <iframe
-              className="absolute inset-0 w-full h-full"
-              src={getVimeoUrl()}
-              title="Demonstração EditalZap"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              frameBorder="0"
-            />
+            // Iframe do Vimeo com carregamento diferido
+            <>
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src={isPlaying ? getVimeoUrl() : ''}
+                title="Demonstração EditalZap"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                frameBorder="0"
+              />
+              {/* Overlay de carregamento - mostra até que o vídeo esteja pronto */}
+              {isPlaying && !videoLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/80">
+                  <div className="w-12 h-12 border-4 border-t-transparent border-[#22A93A] rounded-full animate-spin"></div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
