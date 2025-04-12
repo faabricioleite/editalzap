@@ -1,5 +1,6 @@
 import './globals.css';
 import MetaPixel from './components/MetaPixel';
+import AttributionTracker from './components/AttributionTracker';
 
 export const metadata = {
   title: 'Edital Zap - Receba oportunidades de licitações no WhatsApp',
@@ -35,6 +36,9 @@ export default function RootLayout({ children }) {
       <head>
         {/* Meta tag para corrigir erro de Permissions-Policy */}
         <meta httpEquiv="Permissions-Policy" content="browsing-topics=(), interest-cohort=()" />
+        
+        {/* Script para capturar parâmetros de atribuição */}
+        <AttributionTracker />
         
         {/* Pixel do Facebook - Colocado no head conforme documentação oficial */}
         <MetaPixel />

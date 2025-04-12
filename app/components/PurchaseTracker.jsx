@@ -44,8 +44,27 @@ export default function PurchaseTracker() {
         return null;
       };
 
+      // Obter parâmetros de atribuição armazenados
+      const getAttributionData = () => {
+        try {
+          return {
+            fbclid: localStorage.getItem('fbclid') || '',
+            fbp: localStorage.getItem('fbp') || '',
+            utm_source: localStorage.getItem('utm_source') || '',
+            utm_medium: localStorage.getItem('utm_medium') || '',
+            utm_campaign: localStorage.getItem('utm_campaign') || ''
+          };
+        } catch (e) {
+          console.error('Erro ao obter parâmetros de atribuição:', e);
+          return {};
+        }
+      };
+
       // 4. Função para enviar dados para o webhook do n8n
       const sendToN8n = (eventName, eventData) => {
+        // Obter dados de atribuição
+        const attributionData = getAttributionData();
+        
         return fetch('https://n8n-main.aluanalara.com.br/webhook-test/pixel-editalzap', {
           method: 'POST',
           headers: {
@@ -57,7 +76,8 @@ export default function PurchaseTracker() {
             pixelId: '899641102002155',
             accessToken: 'EAAGe7tXaELQBOyAxOUOUTjVb2Ud5aCMPeBA0GCtD5yZCiwjZChX5OfkzfMyika8n5ouQbBwuK6DilbZCJLE06ZBxQyG52bASsKBfacF6EKahFZBNVZBxB10VNAXfHv5AT68BxF78ouqGE8RuOMz6FSjn5ZBF2Gntlrd6DaDrUF4SkvLhp7F6QWbxmBiFEdnRN6OKwZDZD',
             url: window.location.href,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            attribution: attributionData
           })
         })
         .then(response => {
