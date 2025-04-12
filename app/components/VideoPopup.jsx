@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { X } from 'lucide-react';
 import Image from 'next/image';
 
@@ -8,6 +8,7 @@ export default function VideoPopup({ isOpen, onClose }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const iframeRef = useRef(null);
 
   // Detectar se é dispositivo móvel
   useEffect(() => {
@@ -65,16 +66,40 @@ export default function VideoPopup({ isOpen, onClose }) {
 
   // Determinar qual URL do Vimeo usar baseado no dispositivo
   const getVimeoUrl = () => {
-    return isMobile 
-      ? "https://player.vimeo.com/video/1074966168?autoplay=1&title=0&byline=0&portrait=0"
-      : "https://player.vimeo.com/video/1074965689?autoplay=1&title=0&byline=0&portrait=0";
+    // Parâmetros específicos para o Vimeo que garantem autoplay:
+    // - autoplay=1: inicia o vídeo automaticamente
+    // - muted=1: inicialmente mudo (necessário para autoplay em dispositivos móveis)
+    // - playsinline=1: garante reprodução inline sem tela cheia automática (importante para iOS)
+    // - title=0&byline=0&portrait=0: esconde elementos de UI do Vimeo
+    
+    const baseUrl = isMobile 
+      ? "https://player.vimeo.com/video/1074966168"
+      : "https://player.vimeo.com/video/1074965689";
+      
+    return `${baseUrl}?autoplay=1&muted=1&playsinline=1&title=0&byline=0&portrait=0&transparent=0&app_id=editalzap`;
   };
 
   // Função para iniciar o vídeo
   const handlePlayClick = () => {
     setIsPlaying(true);
-    // Pequeno atraso para garantir que iframe seja criado antes de tentar interagir
-    setTimeout(() => setVideoLoaded(true), 100);
+    
+    // Usar um atraso maior em dispositivos móveis
+    setTimeout(() => {
+      setVideoLoaded(true);
+      
+      // Em dispositivos móveis, precisamos às vezes dar um "empurrão" adicional
+      if (isMobile && iframeRef.current) {
+        try {
+          // Tenta enviar uma mensagem postMessage para o iframe do Vimeo para forçar a reprodução
+          iframeRef.current.contentWindow.postMessage(
+            '{"method":"play"}', 
+            '*'
+          );
+        } catch (e) {
+          console.log('Erro ao tentar iniciar vídeo via postMessage:', e);
+        }
+      }
+    }, isMobile ? 800 : 300);
   };
 
   // URLs das thumbnails
@@ -137,6 +162,7 @@ export default function VideoPopup({ isOpen, onClose }) {
             // Iframe do Vimeo com carregamento diferido
             <>
               <iframe
+                ref={iframeRef}
                 className="absolute inset-0 w-full h-full"
                 src={isPlaying ? getVimeoUrl() : ''}
                 title="Demonstração EditalZap"
