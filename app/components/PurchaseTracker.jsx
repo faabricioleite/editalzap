@@ -41,6 +41,26 @@ export default function PurchaseTracker() {
             
             return null;
           }
+
+          // Função para obter um parâmetro armazenado (localStorage ou cookie)
+          function getStoredParameter(name) {
+            // Tentar obter do localStorage primeiro
+            let value = localStorage.getItem(name);
+            
+            // Se não encontrou no localStorage, tentar nos cookies
+            if (!value) {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                  value = cookie.substring(name.length + 1);
+                  break;
+                }
+              }
+            }
+            
+            return value || '';
+          }
           
           // Função para enviar evento ao n8n
           function sendPurchaseEvent() {
@@ -51,6 +71,12 @@ export default function PurchaseTracker() {
               
               if (product) {
                 console.log("Produto identificado:", product);
+                
+                // Obter fbclid armazenado
+                const fbclid = getStoredParameter('editalzap_fbclid');
+                if (fbclid) {
+                  console.log("fbclid recuperado:", fbclid);
+                }
                 
                 // Gerar ID único para esta compra
                 const orderID = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
@@ -78,7 +104,8 @@ export default function PurchaseTracker() {
                     userInfo: {
                       client_ip_address: '', // O n8n preencherá isso
                       client_user_agent: navigator.userAgent
-                    }
+                    },
+                    fbclid: fbclid
                   })
                 })
                 .then(response => {
