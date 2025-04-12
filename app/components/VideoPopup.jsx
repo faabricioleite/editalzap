@@ -78,7 +78,7 @@ export default function VideoPopup({ isOpen, onClose }) {
   };
 
   // URLs das thumbnails
-  const mobileThumbnail = "/images/Thumbnail do EditalZap-mobile.png";
+  const mobileThumbnail = "/images/thumbnail-mobile.png";
   const desktopThumbnail = "/images/Thumbnail do EditalZap.png";
 
   if (!isOpen) return null;
