@@ -5,6 +5,23 @@ import { X } from 'lucide-react';
 
 export default function VideoPopup({ isOpen, onClose }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detectar se é dispositivo móvel
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Verificar no carregamento inicial
+    checkMobile();
+    
+    // Adicionar listener para redimensionamento
+    window.addEventListener('resize', checkMobile);
+    
+    // Limpar listener
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Prevenir rolagem quando o popup estiver aberto
   useEffect(() => {
@@ -38,6 +55,13 @@ export default function VideoPopup({ isOpen, onClose }) {
     };
   }, [isOpen, onClose]);
 
+  // Determinar qual URL do Vimeo usar baseado no dispositivo
+  const getVimeoUrl = () => {
+    return isMobile 
+      ? "https://player.vimeo.com/video/1074966168?autoplay=1&title=0&byline=0&portrait=0"
+      : "https://player.vimeo.com/video/1074965689?autoplay=1&title=0&byline=0&portrait=0";
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -52,7 +76,7 @@ export default function VideoPopup({ isOpen, onClose }) {
       />
       
       {/* Container do vídeo */}
-      <div className="relative z-10 w-full max-w-4xl mx-4 bg-black rounded-xl shadow-2xl overflow-hidden">
+      <div className={`relative z-10 w-full mx-4 bg-black rounded-xl shadow-2xl overflow-hidden ${isMobile ? 'max-w-md' : 'max-w-4xl'}`}>
         {/* Botão de fechar */}
         <button 
           onClick={() => {
@@ -66,7 +90,7 @@ export default function VideoPopup({ isOpen, onClose }) {
         </button>
         
         {/* Container com aspect ratio */}
-        <div className="relative pt-[56.25%] w-full">
+        <div className={`relative w-full ${isMobile ? 'pt-[177.78%]' : 'pt-[56.25%]'}`}>
           {!isPlaying ? (
             // Thumbnail com botão de play
             <div 
@@ -86,13 +110,14 @@ export default function VideoPopup({ isOpen, onClose }) {
               </div>
             </div>
           ) : (
-            // Iframe do YouTube
+            // Iframe do Vimeo
             <iframe
               className="absolute inset-0 w-full h-full"
-              src="https://www.youtube.com/embed/FygW67tPeqk?autoplay=1&rel=0&showinfo=0"
+              src={getVimeoUrl()}
               title="Demonstração EditalZap"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              frameBorder="0"
             />
           )}
         </div>
