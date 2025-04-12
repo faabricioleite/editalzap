@@ -9,6 +9,8 @@ export default function PurchaseTracker() {
       strategy="afterInteractive"
       dangerouslySetInnerHTML={{
         __html: `
+          console.log("Inicializando script de rastreamento de conversão v1.0.1");
+          
           // Função para identificar o produto
           function getProductInfo() {
             const path = window.location.pathname;
@@ -65,7 +67,7 @@ export default function PurchaseTracker() {
                 };
                 
                 // Enviar para o webhook do n8n
-                fetch('https://n8n-main.aluanalara.com.br/webhook-test/pixel-editalzap', {
+                fetch('https://n8n-hook.aluanalara.com.br/webhook/pixel-editalzap', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
