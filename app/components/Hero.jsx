@@ -115,13 +115,11 @@ export default function Hero({ onOpenDemoVideo }) {
             {/* Botões de ação */}
             <div className="flex justify-center lg:justify-start space-x-4 mb-10 lg:mb-0">
               <a
-                href="https://wa.link/x9ikpi"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#planos"
                 className="btn-primary text-center w-auto"
-                onClick={() => trackAddToWishlist('Comecar Agora Hero')}
+                onClick={() => trackAddToWishlist('Conhecer Planos Hero')}
               >
-                Começar Agora
+                Conhecer Planos
               </a>
               <button 
                 className="btn-secondary text-center" 
