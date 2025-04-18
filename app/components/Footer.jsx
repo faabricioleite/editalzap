@@ -71,13 +71,15 @@ export default function Footer({ onOpenDemoVideo }) {
                   Contato
                 </a>
               </li>
-              <li className="relative inline-flex items-center gap-2">
-                <span className="text-sm hover:text-white transition-colors cursor-not-allowed">
+              <li>
+                <a
+                  href="https://www.licitaia.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm hover:text-white transition-colors"
+                >
                   LicitaIA
-                </span>
-                <span className="text-[10px] bg-gradient-to-r from-[#22A93A] to-[#1A8A2E] text-white px-1.5 py-0.5 rounded-full leading-none">
-                  Em breve
-                </span>
+                </a>
               </li>
             </ul>
           </div>
