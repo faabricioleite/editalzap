@@ -161,11 +161,10 @@ export default function Pricing() {
                 plataforma líder em vendas de produtos digitais na América Latina.
               </p>
               <OptimizedImage 
-                src="/images/payment.svg" 
+                src="/images/payment.png" 
                 alt="Métodos de pagamento aceitos" 
                 width={400}
-                height={64}
-                className="h-8 mt-2" 
+                height={64} 
               />
             </div>
           </div>
