@@ -11,28 +11,28 @@ export default function Pricing() {
       name: "Zap Iniciante",
       price: "20",
       keywords: 1,
-      link: "https://buy.stripe.com/aEUcQC7gU3mE54428m",
+      link: "https://pay.hotmart.com/N99533605Q?off=wou6rwwc&checkoutMode=10",
       popular: false
     },
     {
       name: "Zap Essencial",
       price: "37",
       keywords: 3,
-      link: "https://buy.stripe.com/9AQbMy1WA7CUgMMfZb",
+      link: "https://pay.hotmart.com/N99533605Q?off=hx1joq4n&checkoutMode=10",
       popular: true
     },
     {
       name: "Zap Avançado",
       price: "47",
       keywords: 5,
-      link: "https://buy.stripe.com/8wM9EqeJme1i7cc4gs",
+      link: "https://pay.hotmart.com/N99533605Q?off=7rgynj0d&checkoutMode=10",
       popular: false
     },
     {
       name: "Zap Empresarial",
       price: "67",
       keywords: 10,
-      link: "https://buy.stripe.com/6oE5oabxae1idAA5kv",
+      link: "https://pay.hotmart.com/N99533605Q?off=6xep6rft&checkoutMode=10",
       popular: false
     }
   ];
@@ -141,18 +141,33 @@ export default function Pricing() {
         </div>
 
         {/* Garantia e Cancelamento */}
-        <div className="text-center max-w-2xl mx-auto mt-8">
-          <div className="flex items-center justify-center gap-3 bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="w-12 h-12 rounded-full bg-[#22A93A]/10 flex items-center justify-center">
-              <Shield className="w-6 h-6 text-[#22A93A]" />
+        <div className="text-center max-w-3xl mx-auto mt-8">
+          <div className="flex flex-col items-center justify-center gap-5 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-[#22A93A]/10 flex items-center justify-center">
+                <Shield className="w-6 h-6 text-[#22A93A]" />
+              </div>
+              <p className="text-lg text-gray-600">
+                <span className="font-semibold text-[#22A93A]">Garantia de 7 dias</span> e você pode 
+                <span className="font-semibold text-[#22A93A]"> cancelar a qualquer momento</span> sem burocracia
+              </p>
             </div>
-            <p className="text-lg text-gray-600">
-              <span className="font-semibold text-[#22A93A]">Garantia de 7 dias</span> e você pode 
-              <span className="font-semibold text-[#22A93A]"> cancelar a qualquer momento</span> sem burocracia
-            </p>
+            
+            {/* Informação sobre pagamento Hotmart */}
+            <div className="flex flex-col items-center gap-3 w-full">
+              <p className="text-gray-600 text-center">
+                Pagamento 100% seguro processado pela <span className="font-semibold text-[#22A93A]">Hotmart</span>, 
+                plataforma líder em vendas de produtos digitais na América Latina.
+              </p>
+              <img 
+                src="/images/payment.svg" 
+                alt="Métodos de pagamento aceitos" 
+                className="h-8 mt-2" 
+              />
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
-} 
+}
