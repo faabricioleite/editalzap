@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import { Check, Zap, Shield } from 'lucide-react';
+import OptimizedImage from './OptimizedImage';
 
 export default function Pricing() {
   const [hoveredPlan, setHoveredPlan] = useState(null);
@@ -159,9 +160,11 @@ export default function Pricing() {
                 Pagamento 100% seguro processado pela <span className="font-semibold text-[#22A93A]">Hotmart</span>, 
                 plataforma líder em vendas de produtos digitais na América Latina.
               </p>
-              <img 
+              <OptimizedImage 
                 src="/images/payment.svg" 
                 alt="Métodos de pagamento aceitos" 
+                width={400}
+                height={64}
                 className="h-8 mt-2" 
               />
             </div>
