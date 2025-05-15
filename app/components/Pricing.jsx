@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { Check, Zap, Shield } from 'lucide-react';
 import OptimizedImage from './OptimizedImage';
+import { trackTikTokInitiateCheckout } from '../utils/tiktokEvents';
+import { trackInitiateCheckout as trackMetaInitiateCheckout } from '../utils/pixelEvents';
 
 export default function Pricing() {
   const [hoveredPlan, setHoveredPlan] = useState(null);
@@ -132,6 +134,10 @@ export default function Pricing() {
                         ? 'bg-[#22A93A] text-white hover:bg-[#1b8830]'
                         : 'bg-gray-50 text-gray-900 hover:bg-gray-100'
                     }`}
+                    onClick={() => {
+                      trackMetaInitiateCheckout(plan.name, { value: parseFloat(plan.price) });
+                      trackTikTokInitiateCheckout(plan.name, { value: parseFloat(plan.price), currency: 'BRL' });
+                    }}
                   >
                     Testar por 7 dias
                   </a>

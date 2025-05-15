@@ -1,5 +1,6 @@
 import './globals.css';
 import MetaPixel from './components/MetaPixel';
+import TikTokPixel from './components/TikTokPixel';
 import AttributionTracker from './components/AttributionTracker';
 
 export const metadata = {
@@ -42,6 +43,9 @@ export default function RootLayout({ children }) {
         
         {/* Pixel do Facebook - Colocado no head conforme documentação oficial */}
         <MetaPixel />
+        
+        {/* Pixel do TikTok */}
+        <TikTokPixel />
         
         {/* Essential Open Graph tags */}
         <meta property="og:url" content="https://www.editalzap.com.br/" />
