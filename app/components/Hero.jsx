@@ -103,13 +103,15 @@ export default function Hero({ onOpenDemoVideo }) {
             
             {/* Título principal - Corrigindo o problema do ç sendo cortado */}
             <h1 className="text-center lg:text-left text-4xl sm:text-5xl md:text-6xl font-bold text-[#333333] mb-6 leading-tight">
-              Fique por dentro das <span className="green-gradient-text">licitações</span> <br className="hidden md:block" />todos os dias
+            Pare de perder tempo <span className="green-gradient-text">abrindo site de prefeitura</span> <br className="hidden md:block" />todos os dias
             </h1>
             
             {/* Subtítulo */}
             <p className="text-center lg:text-left text-lg md:text-xl text-gray-600 max-w-3xl mx-auto lg:mx-0 mb-8">
-              Receba alertas diários sobre novas oportunidades de licitação diretamente 
-              no seu WhatsApp e não perca mais nenhuma chance de negócio
+            O EditalZap procura pra você e envia alertas com as licitações certas pro seu negócio.
+Você não perde mais oportunidades boas nem gasta horas caçando edital em portal público.
+
+
             </p>
             
             {/* Botões de ação */}
@@ -119,7 +121,7 @@ export default function Hero({ onOpenDemoVideo }) {
                 className="btn-primary text-center w-auto"
                 onClick={() => trackAddToWishlist('Conhecer Planos Hero')}
               >
-                Conhecer Planos
+                Receber Licitações no WhatsApp
               </a>
               <button 
                 className="btn-secondary text-center" 
@@ -128,7 +130,7 @@ export default function Hero({ onOpenDemoVideo }) {
                   trackViewContent('Ver Demonstração');
                 }}
               >
-                Ver Demonstração
+                Ver Como Funciona
               </button>
             </div>
           </div>

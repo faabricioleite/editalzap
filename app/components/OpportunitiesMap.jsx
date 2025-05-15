@@ -48,19 +48,18 @@ export default function OpportunitiesMap() {
         {/* Badge superior */}
         <div className="flex justify-center mb-8">
           <div className="badge w-auto text-center">
-            <span className="mr-2">🎯</span>
-            <span className="text-sm">Oportunidades em todo o território nacional</span>
+            <span className="mr-2">🇧🇷</span>
+            <span className="text-sm">Oportunidades em todo Brasil</span>
           </div>
         </div>
 
         {/* Título e Subtítulo */}
         <div className="text-center max-w-4xl mx-auto mb-4">
           <h2 className="text-4xl md:text-5xl font-bold text-[#333333] mb-6">
-            Alertas de licitações em <span className="green-gradient-text">todos os Estados</span>
+          Licitações do Brasil inteiro <span className="green-gradient-text">chegando no seu WhatsApp</span>
           </h2>
           <p className="text-lg text-gray-600">
-            Cobertura completa da Lei 14.133/2021: Pregão, Concorrência, Diálogo Competitivo, 
-            Dispensa e muito mais. Oportunidades para todos os CNAEs em todo o Brasil.
+          O EditalZap encontra as melhores licitações por estado e te manda tudo pronto.
           </p>
         </div>
 

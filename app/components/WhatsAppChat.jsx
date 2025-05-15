@@ -9,6 +9,7 @@ export default function WhatsAppChat() {
   const [shownMessages, setShownMessages] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const chatBgRef = useRef(null);
+  const [currentTime, setCurrentTime] = useState("");
   
   const messages = [
     { 
@@ -47,8 +48,13 @@ export default function WhatsAppChat() {
     }
   }, [loadingDots]);
 
-  // Configurar o background da imagem após a renderização no cliente
+  // Configurar o background da imagem e a hora atual após a renderização no cliente
   useEffect(() => {
+    // Define a hora atual
+    const now = new Date();
+    setCurrentTime(`${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`);
+
+    // Define o background
     if (chatBgRef.current) {
       const isCustomDomain = typeof window !== 'undefined' && 
         (window.location.hostname === 'editalzap.com.br' || 
@@ -78,12 +84,6 @@ export default function WhatsAppChat() {
     }
   };
 
-  // Obter hora atual para exibir nas mensagens
-  const getCurrentTime = () => {
-    const now = new Date();
-    return `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
-  };
-
   return (
     <div className="max-w-sm mx-auto my-6">
       {/* iPhone Mockup - Moldura externa */}
@@ -108,7 +108,7 @@ export default function WhatsAppChat() {
             
             {/* Status Bar */}
             <div className="h-8 bg-[#075E54] pt-1 flex justify-between items-center px-6 z-20">
-              <div className="text-xs text-white">{getCurrentTime()}</div>
+              <div className="text-xs text-white">{currentTime}</div>
               <div className="flex items-center space-x-1">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M17.778 8.222c-4.296-4.296-11.26-4.296-15.556 0A1 1 0 01.808 6.808c5.076-5.077 13.308-5.077 18.384 0a1 1 0 01-1.414 1.414zM14.95 11.05a7 7 0 00-9.9 0 1 1 0 01-1.414-1.414 9 9 0 0112.728 0 1 1 0 01-1.414 1.414zM12.12 13.88a3 3 0 00-4.242 0 1 1 0 01-1.415-1.415 5 5 0 017.072 0 1 1 0 01-1.415 1.415zM9 16a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
@@ -192,7 +192,7 @@ export default function WhatsAppChat() {
                       }
                       <div className="flex justify-end">
                         <span className="text-xs text-gray-500 mt-1">
-                          {getCurrentTime()}
+                          {currentTime}
                           {message.sender === 'user' && (
                             <span className="ml-1">
                               <CheckCheck size={12} className="inline text-[#34B7F1]" />

@@ -54,8 +54,9 @@ export default function PricingCard({
             `}
             onClick={() => trackInitiateCheckout(title, { value: parseFloat(price) })}
           >
-            Começar Agora
+            Testar por 7 dias
           </a>
+          <p className="text-center text-xs italic text-gray-500 mt-2">Cancele quando quiser</p>
         </div>
       </div>
     </div>
