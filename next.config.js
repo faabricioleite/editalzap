@@ -4,8 +4,8 @@ const nextConfig = {
   images: {
     domains: ['editalzap.com.br', 'www.editalzap.com.br'],
   },
-  basePath: '/editalzap',
-  assetPrefix: '/editalzap',
+  basePath: '',
+  assetPrefix: '',
   trailingSlash: false,
   // Adiciona cabeçalhos de segurança
   async headers() {
